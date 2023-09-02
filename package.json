@@ -6,13 +6,14 @@
   "main": "client/main.js",
   "scripts": {
     "postinstall": "node py-install.js && cd src && npm i",
+    "py:Main": "cd server && python main.py headless",
     "dev:PY": "cd server && python main.py",
     "dev:App": "cd src && npm run dev",
-    "dev": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
+    "dev": "concurrently \"npm:dev:PY dev\" \"npm:dev:App\"",
+    "dev:Web": "concurrently \"npm:dev:PY headless\" \"npm:dev:App\" \"start http://localhost:3000\"",
     "build:App": "cd src && npm run build",
-    "build:PY": "cd server && pyinstaller main.spec --distpath ../client/build/bin/ --clean",
-    "build": "npm run build:PY && npm run build:App",
-    "debug": "release\\1.0.0\\win-unpacked\\ll-dashboard.exe -- --debug"
+    "build:PY": "cd server && pyinstaller main.spec --distpath ../release/ll-dashboard --clean",
+    "build": "npm run build:App && npm run build:PY"
   },
   "devDependencies": {
     "concurrently": "^8.2.1"

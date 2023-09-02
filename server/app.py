@@ -1,7 +1,9 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_migrate import Migrate, upgrade
 from flask_cors import CORS
 from os.path import exists
+import os
+import sys
 
 from json_postgres_loader import runPopulate
 
@@ -32,12 +34,23 @@ populate = False
 if not exists(db_path):
   populate = True
 
+if getattr(sys, 'frozen', False):
+    template_folder=os.path.abspath("dist")
+    static_folder=os.path.abspath('dist/_nuxt')
+else:
+    template_folder="../src/.output/public"
+    static_folder='../src/.output/public/'
+
 def create_app():
-    app = Flask(__name__, template_folder="../src/.output/public", static_folder='../src/.output/public/_nuxt/',)
+    app = Flask(__name__, template_folder=template_folder, static_folder=static_folder)
 
     @app.route("/")
     def hello():
         return render_template('index.html')
+
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.abspath("dist"), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
     app.config.from_object(DevelopmentConfig())
     db.init_app(app)
@@ -45,8 +58,8 @@ def create_app():
     CORS(
         app,
         resources={r"*": {"origins": [
-            "http://localhost:3000", "127.0.0.1:3000", "http://172.26.255.25:3000",
-            "http://localhost:5000", "127.0.0.1:5000", "https://tauri.localhost"
+            "http://localhost:3000", "http://127.0.0.1:3000",
+            "http://localhost:5000", "http://127.0.0.1:5000",
         ]}},
         supports_credentials=True,
     )

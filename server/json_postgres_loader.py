@@ -1,17 +1,10 @@
 import json
 import sqlite3
 
-from getDB import db_path, db_data_path
-
-import sys
-
-data_path = 'data/chengyu.json'
-if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-    print('running in a PyInstaller bundle')
-    data_path = db_data_path
+from getDB import db_path
 
 def runPopulate(): 
-    with open(data_path, encoding='utf-8') as f:
+    with open('data/chengyu.json', encoding='utf-8') as f:
         data = json.load(f)
 
     con = sqlite3.connect(db_path)
