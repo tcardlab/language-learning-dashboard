@@ -2,6 +2,8 @@ from flask import Flask
 from flask_migrate import Migrate, upgrade
 from flask_cors import CORS
 from os.path import exists
+import os
+from appdirs import user_data_dir
 
 from json_postgres_loader import runPopulate
 
@@ -30,10 +32,14 @@ from getDB import db_path
 
 populate = False
 if not exists(db_path):
-  populate = True
+    populate = True
+
+app_data_dir = user_data_dir('ll-dashboard', appauthor='programs') # prob windows only path
+src_path = os.path.join(app_data_dir, 'resources/src')
+static_path = os.path.join(app_data_dir, 'resources/src/_nuxt')
 
 def create_app():
-    app = Flask(__name__, template_folder="../src/.output/public", static_folder='../src/.output/public/_nuxt/',)
+    app = Flask(__name__, template_folder=src_path, static_folder=static_path)
 
     @app.route("/")
     def hello():
@@ -45,8 +51,8 @@ def create_app():
     CORS(
         app,
         resources={r"*": {"origins": [
-            "http://localhost:3000", "127.0.0.1:3000", "http://172.26.255.25:3000",
-            "http://localhost:5000", "127.0.0.1:5000", "https://tauri.localhost"
+            "http://localhost:3000", "http://127.0.0.1:3000",
+            "http://localhost:5000", "http://127.0.0.1:5000",
         ]}},
         supports_credentials=True,
     )

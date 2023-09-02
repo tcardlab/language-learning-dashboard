@@ -1,12 +1,15 @@
+.DS_Store
 dist
+
 build
+!client/build
+client/build/bin
+client/target
+
 **/node_modules
 **/venv
 
 server/instance
-client/bin
-
 **/build/bin
 
-client
 release

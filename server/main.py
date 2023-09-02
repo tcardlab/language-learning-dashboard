@@ -1,3 +1,4 @@
+from flaskwebgui import FlaskUI
 from flask import render_template
 from app import create_app
 import ensure_close

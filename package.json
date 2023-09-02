@@ -8,13 +8,21 @@
     "postinstall": "node py-install.js && cd src && npm i",
     "dev:PY": "cd server && python main.py",
     "dev:App": "cd src && npm run dev",
-    "dev": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
+    "dev:Client": "electron client/main.js dev",
+    "dev": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"npm:dev:Client\"",
+    "dev:Web": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
     "build:App": "cd src && npm run build",
     "build:PY": "cd server && pyinstaller main.spec --distpath ../client/build/bin/ --clean",
-    "build": "npm run build:PY && npm run build:App",
+    "build:Client": "npx electron-builder build --config client/build/electron-builder.json",
+    "build": "npm run build:PY && npm run build:App && npm run build:Client",
     "debug": "release\\1.0.0\\win-unpacked\\ll-dashboard.exe -- --debug"
   },
   "devDependencies": {
-    "concurrently": "^8.2.1"
+    "concurrently": "^8.2.1",
+    "electron": "^26.1.0",
+    "electron-builder": "^24.6.3"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.1"
   }
 }

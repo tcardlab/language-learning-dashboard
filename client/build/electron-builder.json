@@ -1,0 +1,53 @@
+{
+  "appId": "com.simonilincev.ll-dashboard",
+  "productName": "ll-dashboard",
+  "asar": true,
+  "npmRebuild": false,
+  "framework": "electron",
+  "directories": {
+    "buildResources": "client/build",
+    "output": "release/${version}"
+  },
+  "files": [
+    "client"
+  ],
+  "extraResources": [
+    {
+      "from": "src/.output/public",
+      "to": "src"
+    },
+    {
+      "from": "client/build/bin",
+      "to": "server"
+    }
+  ],
+  "mac": {
+    "hardenedRuntime": true,
+    "artifactName": "${productName}-installer-darwin.${ext}",
+    "icon": "icon.ico",
+    "target": [ "dmg", "zip" ]
+  },
+  "win": {
+    "artifactName": "${productName}-installer-win64.${ext}",
+    "icon": "icon.ico",
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [ "x64" ]
+      }
+    ]
+  },
+  "linux": {
+    "icon": "icon.ico",
+    "target": [ "AppImage", "tar.gz" ]
+  },
+  "nsis": {
+    "oneClick": true,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": false,
+    "deleteAppDataOnUninstall": true,
+    "installerIcon": "icon.ico",
+    "uninstallerIcon": "icon.ico",
+    "uninstallDisplayName": "ll-dashboard"
+  }
+}
