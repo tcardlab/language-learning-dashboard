@@ -25,7 +25,7 @@ export default {
     }
     const statUpdateToggler = ref(true);
 
-    useMeta({
+    useHead({
       htmlAttrs: {
         "data-theme": theme,
       },

@@ -1,17 +1,23 @@
-import { defineNuxtConfig } from 'nuxt3'
+import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
+  ssr: false,
+  app: {
+    baseURL: './'
+  },
+  routeRules: {
+    // Homepage pre-rendered at build time
+    '/': { prerender: true },
+  },
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   build: {
     transpile: [
       /echarts/
-    ],
-    postcss: {
-        postcssOptions: {
-          plugins: {
-            tailwindcss: {},
-            autoprefixer: {},
-          }
-        }
-      },
+    ]
   }
 })
