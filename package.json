@@ -8,13 +8,14 @@
     "postinstall": "node py-install.js && cd src && npm i",
     "dev:PY": "cd server && python main.py",
     "dev:App": "cd src && npm run dev",
-    "dev": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
+    "dev": "npx tauri dev",
+    "dev:Web": "concurrently \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
+    "build:PY": "cd server && pyinstaller main.spec --distpath ../client/bin/python --clean",
     "build:App": "cd src && npm run build",
-    "build:PY": "cd server && pyinstaller main.spec --distpath ../client/build/bin/ --clean",
-    "build": "npm run build:PY && npm run build:App",
-    "debug": "release\\1.0.0\\win-unpacked\\ll-dashboard.exe -- --debug"
+    "build": "npx tauri build"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^1.2.2",
     "concurrently": "^8.2.1"
   }
 }

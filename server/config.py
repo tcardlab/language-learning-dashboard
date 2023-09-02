@@ -5,6 +5,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     
+    # NOTE: fix l8r
     SQLALCHEMY_DATABASE_URI = db_uri
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
