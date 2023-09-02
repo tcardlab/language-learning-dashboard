@@ -1,17 +1,12 @@
-import os
 from datetime import datetime, timedelta, timezone
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-
+from getDB import db_uri
 
 class Config(object):
     DEBUG = False
     TESTING = False
     
-    SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
+    SQLALCHEMY_DATABASE_URI = db_uri
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    SECRET_KEY = "this-really-needs-to-be-changed"
 
     CSRF_ENABLED = True
     CORS_HEADERS = "Content-Type"

@@ -1,5 +1,5 @@
 from extensions import db
-
+from datetime import datetime
 
 class StatisticSnapshot(db.Model):
     """
@@ -21,7 +21,7 @@ class StatisticSnapshot(db.Model):
 
     name = db.Column(db.String(80), nullable=False)  # unique string name for each statistic
     value = db.Column(db.Integer, nullable=False, default=0)
-    date = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    date = db.Column(db.DateTime, nullable=False, default=datetime.now)
 
     def __init__(self, name, value, user_id=1):
         self.name = name

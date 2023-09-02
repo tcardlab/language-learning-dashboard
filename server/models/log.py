@@ -1,5 +1,5 @@
 from extensions import db
-
+from datetime import datetime
 
 class Log(db.Model):
     """
@@ -9,7 +9,7 @@ class Log(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
     title = db.Column(db.String(100), nullable=False)
-    date = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     length = db.Column(db.Integer, nullable=True)  # time in minutes
     type = db.Column(db.String(80), nullable=True)  # 'writing', 'reading', 'speaking', 'listening'...
     

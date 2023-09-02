@@ -3,8 +3,12 @@ from extensions import db
 from models.goal_message import GoalMessage
 from models.user import User
 
+from datetime import datetime
+
 goal_bp = Blueprint("goal", __name__)
 
+def fmtDate(d):
+    return datetime.strptime(d,'%Y-%m-%d')
 
 @goal_bp.route("/weekly-goals", methods=["GET"])
 def display_user_goals():
@@ -20,7 +24,7 @@ def submit_new_goal():
         user_id=user.id,
         description=request.json["description"],
         completed=False,
-        deadline=request.json["deadline"],
+        deadline=fmtDate(request.json["deadline"]),
     )
     db.session.add(goal_message)
     db.session.commit()
@@ -31,7 +35,7 @@ def submit_new_goal():
 def edit_goal():
     goal_message = GoalMessage.query.filter_by(id=request.json["id"]).first()
     goal_message.description = request.json["description"]
-    goal_message.deadline = request.json["deadline"]
+    goal_message.deadline = fmtDate(request.json["deadline"])
     goal_message.completed = request.json["completed"]
     db.session.commit()
     return jsonify(success=True)

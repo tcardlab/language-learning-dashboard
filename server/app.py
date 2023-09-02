@@ -1,9 +1,11 @@
 from flask import Flask
-from extensions import db
-from dotenv import load_dotenv
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from flask_cors import CORS
-import os
+from os.path import exists
+
+from json_postgres_loader import runPopulate
+
+from extensions import db
 
 # BLUEPRINT IMPORTS
 from blueprints.chengyu import chengyu_bp
@@ -21,28 +23,46 @@ from models.user import User
 from models.action import Action
 from models.statistic import StatisticSnapshot
 
-load_dotenv()
+from flask import render_template
+from config import DevelopmentConfig
 
-migrate = Migrate(compare_type=True)
-cors = CORS()
+from getDB import db_path
 
+populate = False
+if not exists(db_path):
+  populate = True
 
 def create_app():
-    app = Flask(__name__)
-    app.config.from_object(os.environ.get("APP_SETTINGS"))
+    app = Flask(__name__, template_folder="../src/.output/public", static_folder='../src/.output/public/_nuxt/',)
+
+    @app.route("/")
+    def hello():
+        return render_template('index.html')
+
+    app.config.from_object(DevelopmentConfig())
     db.init_app(app)
-    migrate.init_app(app, db)
-    # register blueprints
-    cors.init_app(
+
+    CORS(
         app,
-        resources={r"*": {"origins": ["http://localhost:3000", "http://127.1.0.0.1:3000"]}},
+        resources={r"*": {"origins": [
+            "http://localhost:3000", "127.0.0.1:3000", "http://172.26.255.25:3000",
+            "http://localhost:5000", "127.0.0.1:5000", "https://tauri.localhost"
+        ]}},
         supports_credentials=True,
     )
 
+    # register blueprints
     app.register_blueprint(chengyu_bp)
     app.register_blueprint(log_bp)
     app.register_blueprint(goal_bp)
     app.register_blueprint(milestone_bp)
     app.register_blueprint(statistics_bp)
+
+    Migrate(app, db, compare_type=True, render_as_batch=True)
+    with app.app_context():
+        db.create_all()
+
+    if populate:
+      runPopulate()
 
     return app

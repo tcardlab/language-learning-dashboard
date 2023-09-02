@@ -8,6 +8,7 @@ from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
 from isoweek import Week
 
+from datetime import datetime
 
 log_bp = Blueprint("log", __name__)
 
@@ -25,7 +26,7 @@ def submit_custom_log():
         type=data["type"],
         language="zh",  # NOTE: hardcoded for prototype
     )
-    log.date = data["date"]
+    log.date = datetime.strptime(data["date"],'%Y-%m-%d')
 
     # add the log to the database
     db.session.add(log)
