@@ -11,7 +11,7 @@ Built specifically with the Chinese language in mind but applicable to other lan
 |             Light              |               Dark                |
 | :----------------------------: | :-------------------------------: |
 | ![](/images/light-whole-2.png) |    ![](/images/dark-whole.png)    |
-|     ![](/images/goal.png)      |     ![](/images/dark-top.png)     |
+|     ![](/images/goal.png)      |    misleading image removed       |
 |  ![](/images/light-track.png)  | ![](/images/dark-stats-lower.png) |
 
 ## Features:
@@ -138,6 +138,37 @@ episodes_watched	4
 ```
 
 For each manual item, type the name on one line, and then press tab, and then type in the value you want to upload. Not all of these are required, but you can't upload a value for an item that doesn't exist. Note that the first time you import this data, it will show up twice — simply refresh the page.
+
+
+
+## Developers
+
+### Setup:
+```sh
+# Install deps
+npm i
+
+# Activate python env
+venv\Scripts\Activate.ps1 # windows
+source venv/bin/activate  # mac/linux
+```
+
+### Run:
+
+```sh
+# Run in dev mode
+npm run dev
+
+# Create distributable
+npm run build
+
+# Run server in dev mode
+npm dev:PY
+
+# Run in local, default browser
+npm run dev:Web
+```
+
 
 ---
 

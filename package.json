@@ -5,7 +5,7 @@
   "author": "simonilincev",
   "main": "client/main.js",
   "scripts": {
-    "postinstall": "cd src && npm i",
+    "postinstall": "node py-install.js && cd src && npm i",
     "dev:PY": "cd server && python main.py",
     "dev:App": "cd src && npm run dev",
     "dev": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
