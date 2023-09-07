@@ -1,1 +1,13 @@
 .DS_Store
+dist
+build
+**/node_modules
+**/venv
+
+server/instance
+client/bin
+
+**/build/bin
+
+client
+release
