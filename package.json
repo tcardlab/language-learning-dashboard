@@ -10,7 +10,7 @@
     "dev:App": "cd src && npm run dev",
     "dev:Client": "electron client/main.js dev",
     "dev": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"npm:dev:Client\"",
-    "dev:Web": "concurrently -k \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
+    "dev:Web": "concurrently \"npm:dev:PY\" \"npm:dev:App\" \"start http://localhost:3000\"",
     "build:App": "cd src && npm run build",
     "build:PY": "cd server && pyinstaller main.spec --distpath ../client/build/bin/ --clean",
     "build:Client": "npx electron-builder build --config client/build/electron-builder.json",

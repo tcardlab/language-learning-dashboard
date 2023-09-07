@@ -5,6 +5,7 @@ build
 !client/build
 client/build/bin
 client/target
+client/bin
 
 **/node_modules
 **/venv

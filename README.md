@@ -30,51 +30,11 @@ Built specifically with the Chinese language in mind but applicable to other lan
 - Detailed learning statistics
   - View total study time, vocab size, words read, a daily average, and more!
 
-... and much more for you to discover!
-
 ## How to use
 
-This dashboard is built with the following technologies: Python, Flask, Vue, Nuxt, TailwindCSS, and PostgreSQL. It's a bit of an unorthodox setup, so I'll try to explain it as best as I can. Here's how you can go about getting this running on your local machine.
+Most everything is intuitive, though there is one shortcut to point out — the `Log Data from File` shortcut. This button allows you to automate the logging of your language data in three ways.
 
-1. Clone or download this repository
-2. Ensure you have Python3 and [Node.js](https://nodejs.org/en/download/) installed,
-3. Navigate to the `server` folder, which holds the Python code that allows the dashboard to run and store data. Install all requirements with the command `python3 -m pip install -r requirements.txt`.
-4. Backend done! Let's make sure that we have a database running. Install Postgres (best done through the [Postgres App](https://postgresapp.com/)) and run the following command in your terminal: `createdb language-learning-dashboard`. If the command does not work, you may have to configure PostgreSQL command line tools, a very simple process described [on the Postgres App page](https://postgresapp.com/documentation/cli-tools.html).
-5. Now, the Python libraries we installed aren't comprehensive. To run the chengyu database loader, below, we still need `psycopg2`. If you're *not* on a Mac (M1 I believe too?), run `python3 -m pip install psycopg2`. Then go to the next step. If there is an issue down the line with some `psycopg2` symbols, return here. If you *are* on a Mac (or coming back), do: `python3 -m pip uninstall psycopg2`, and then `python3 -m pip install psycopg2-binary`.
-
-   I'm not sure which versions of what OSes have the issue, so if one of these doesn't work, just uninstall and try the other.
-6. We need to link the Python code to the database using Flask-Migrate. Create a file called `.env` in the `server` folder and populate it with the following values:
-
-   ```
-   export APP_SETTINGS="config.DevelopmentConfig"
-   export DATABASE_URL="postgresql:///language-learning-dashboard"
-   export FLASK_APP=app
-   ```
-
-   You should also consider putting in the config secret key in the `.env` file and reading from there rather than having it be hardcoded in the code.
-
-   Then, we need to run the `flask db upgrade` command in the `server` folder to link the database to the Python migrations and code.
-
-7. Almost done, let's just create some initial database values. In the `server` folder, run the following command: `python3 scripts/json_postgres_loader.py` (this sets up the chengyu database).
-8. Moving onto the frontend: navigate to the `client` folder and run the following command in your terminal: `npm install`. We now have all our dependencies installed. Take care with messing with the `package.json` package versions, there are some dependency clashes with later versions that can't be really resolved.
-9. Let's run our frontend and backend! In two terminal windows, run the following commands from the root folder:
-   ```
-   cd client
-   npm run dev
-   ```
-   and
-   ```
-   cd server
-   python3 main.py
-   ```
-
-You should now be able to access and use the dashboard at http://localhost:3000. If you'd like to make specific changes to the dashboard, such as Quick Actions, Ability Breakdown, etc. you can just modify the source code, and it will be updated automatically.
-
-Note that on Windows or perhaps Mac, this might still not be enough to get the app running. Try also create a new localStorage key-value pair for localhost:3000 with the following key: `theme` and value: `garden`. Also on Windows you need to set up `DATABASE_URL` in `.env` in the format `postgresql://user:password@localhost:5432/language-learning-dashboard` instead.
-
-As for specifically using the dashboard: most everything is intuitive, though there is one shortcut to point out — the `Log Data from File` shortcut. This button allows you to automate the logging of your language data in three ways.
-
-If you accidentally logged something, you can either log its inverse (e.g. you added 10 minutes of Reading, you can simply add -10 minutes of Reading) *or* (more technical) open up the SQL database (`psql language-learning-dashboard`) and `DELETE FROM log WHERE ID=<id of bad log>` (id can be found via `SELECT * FROM log`).
+If you accidentally logged something, you can either log its inverse (e.g. you added 10 minutes of Reading, you can simply add -10 minutes of Reading).
 
 ### Uploading a `.csv` file with your language data.
 
@@ -143,6 +103,8 @@ For each manual item, type the name on one line, and then press tab, and then ty
 
 ## Developers
 
+This dashboard is built with the following technologies: Flask, Nuxt, TailwindCSS, SQLite, PyInstaller, and Electron.
+
 ### Setup:
 ```sh
 # Install deps
@@ -156,11 +118,14 @@ source venv/bin/activate  # mac/linux
 ### Run:
 
 ```sh
-# Run in dev mode
+# Run electron in dev mode
 npm run dev
 
-# Create distributable
+# Create electron distributable
 npm run build
+
+# Run electron dist with debug terminal
+npm run debug
 
 # Run server in dev mode
 npm dev:PY
